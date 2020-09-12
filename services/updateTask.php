@@ -1,9 +1,15 @@
 <?php
 
-include('../cors/cors.php');
-include('../database/conection.php');
+    include('../cors/cors.php');
+    include('../database/conection.php');
 
-$json = json_decode(file_get_contents("php://input"));
+    header("Access-Control-Allow-Methods: PUT");
+
+    if($_SERVER['REQUEST_METHOD'] != 'PUT'){
+        die("Only PUT methods");
+    }
+
+    $json = json_decode(file_get_contents("php://input"));
 
     $query = "UPDATE $table SET responsable = ?, description = ? WHERE id = ?;";
     $ps = $conection->prepare($query);

@@ -1,19 +1,25 @@
 <?php
 
-include('../cors/cors.php');
-include('../database/conection.php');
+    include('../cors/cors.php');
+    include('../database/conection.php');
 
-if(isset($_GET['id'])){
-    $id = $_GET['id'];
-    $query = "DELETE FROM $table WHERE id = ?";
-    $ps = $conection->prepare(($query));
-    $res = $ps->execute([$id]);
+    header("Access-Control-Allow-Methods: DELETE");
 
-    if($res == false){
-        die("error");
+    if($_SERVER['REQUEST_METHOD'] != 'DELETE'){
+        die("Only DELETE methods");
     }
 
-    echo json_encode($res);
-}
+    if(isset($_GET['id'])){
+        $id = $_GET['id'];
+        $query = "DELETE FROM $table WHERE id = ?";
+        $ps = $conection->prepare(($query));
+        $res = $ps->execute([$id]);
+
+        if($res == false){
+            die("error");
+        }
+
+        echo json_encode($res);
+    }
 
 ?>
